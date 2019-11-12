@@ -196,7 +196,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void onSelected(int idx){
 
     setState(() {
-      _selections.add(idx);
+      if(_selections.contains(idx)) _selections.remove(idx);
+        else _selections.add(idx);
     });
 
   }
