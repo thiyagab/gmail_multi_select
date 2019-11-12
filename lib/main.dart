@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sampleflutter/contact_row.dart';
+import 'package:sampleflutter/multiselect_list.dart';
 
 void main() => runApp(MyApp());
 
@@ -81,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
         leading: IconButton(icon:Icon(Icons.arrow_back),
           onPressed:() => {setState(()=>{
             clearSelection=true,
-            selections=new Set()
+            _selections=new Set()
           })},
         ),
 
@@ -122,7 +123,62 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Set<int> selections=new Set();
+
+
+  @override
+  Widget build1(BuildContext context) {
+    // This method is rerun every time setState is called, for instance as done
+    // by the _incrementCounter method above.
+    //
+    // The Flutter framework has been optimized to make rerunning build methods
+    // fast, so that you can just rebuild anything that needs updating rather
+    // than having to individually change instances of widgets.
+    return GmailMultiSelectList(itemBuilder:(context,idx){return getListTile(idx);},
+    itemCount: 3,
+    actions:actionButtons(),
+    defaultAppBar: AppBar(title:Text("hii")),
+      selections:selections,
+      clearSelection: clearSelections,
+    );
+
+  }
+
+  ListTile getListTile(int idx){
+    return new ListTile(
+        leading: InkWell(child: Icon(Icons.person),onTap:()=> {onSelected(idx)}),
+        title: new Text("Test"),
+        subtitle: new Text("Test Desc"),
+        trailing: new Text(idx.toString())
+    );
+  }
+
+
+  List<Widget> actionButtons(){
+   return List()
+      ..add(IconButton(
+        icon: Icon(Icons.delete),
+        onPressed: () {
+
+        },
+      ))
+    ..add(IconButton(
+    icon: Icon(Icons.star),
+    onPressed: () {
+
+    },
+    ))
+    ..add(IconButton(
+    icon: Icon(Icons.check),
+    onPressed: () {
+
+    },
+    ));
+  }
+
+
+
+  Set<int> _selections=new Set();
+  get selections=>_selections;
 
   void onSelection(int idx,bool isSelect){
       clearSelection=false;
@@ -137,6 +193,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   }
 
+  void onSelected(int idx){
+
+    setState(() {
+      _selections.add(idx);
+    });
+
+  }
+
+
+
+  void clearSelections() {
+    setState(() {
+      clearSelection=true;
+      _selections=new Set();
+    });
+  }
 }
 
 

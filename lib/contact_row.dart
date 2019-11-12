@@ -19,9 +19,8 @@ class _ContactRowState extends State<ContactRow> {
   Widget build(BuildContext context) {
     isSelected=checkSelected();
     return new Card(
-
       color: checkSelected()?Colors.grey[300]:Colors.white,
-      child: new Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+      child:
         new ListTile(
             selected: isSelected,
             leading: InkWell(child: Icon(isSelected?Icons.check:Icons.person),onTap: toggleSelection),
@@ -29,7 +28,6 @@ class _ContactRowState extends State<ContactRow> {
             subtitle: new Text("Test Desc"),
             trailing: new Text(widget.idx.toString())
         )
-      ]),
     );
   }
 
