@@ -1,4 +1,4 @@
-package com.droidapps.sampleflutter
+package com.droidapps.gmailmultiselect
 
 import android.os.Bundle
 

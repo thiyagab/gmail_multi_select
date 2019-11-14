@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class GmailMultiSelectList extends StatefulWidget {
-  List<Widget> actions;
-  AppBar defaultAppBar;
+  final List<Widget> actions;
+  final AppBar defaultAppBar;
   @required
-  IndexedWidgetBuilder itemBuilder;
-  int itemCount;
-  Set<int> selections;
-  VoidCallback clearSelection;
+  final IndexedWidgetBuilder itemBuilder;
+  final int itemCount;
+  final Set<int> selections;
+  final VoidCallback clearSelection;
   Color selectedColor=Colors.grey[300];
 
   GmailMultiSelectList(
@@ -48,18 +48,5 @@ class _GmailMultiSelectListState extends State<GmailMultiSelectList> {
                 color: widget.selections.contains(idx)?widget.selectedColor:Colors.white, child: widget.itemBuilder(context, idx));
           },
         ));
-    ;
-  }
-}
-
-class Row extends StatelessWidget {
-  @required
-  IndexedWidgetBuilder itemBuilder;
-  Row(this.itemBuilder);
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
   }
 }

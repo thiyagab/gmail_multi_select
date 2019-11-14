@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sampleflutter/contact_row.dart';
 import 'package:sampleflutter/multiselect_list.dart';
 
 void main() => runApp(MyApp());
@@ -46,22 +45,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  bool clearSelection=false;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-//    Navigator.push(context, MaterialPageRoute(builder: (context) => NewPage()));
-  }
 
-  List<String> items = ["Thiyaga","Aadhav","Kalai"];
+  List<String> items = ["Thiyaga", "Aadhav", "Kalai"];
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,145 +59,67 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: selections.length==0?AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ):AppBar(
-        automaticallyImplyLeading: true,
-
-        leading: IconButton(icon:Icon(Icons.arrow_back),
-          onPressed:() => {setState(()=>{
-            clearSelection=true,
-            _selections=new Set()
-          })},
-        ),
-
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () {
-
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.star),
-            onPressed: () {
-
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.check),
-            onPressed: () {
-
-            },
-          ),
-
-
-        ],
-        title: Text(selections.length.toString()),
-
-      ),
-      body: ListView.builder(
-        itemCount: 3,
-        itemBuilder: (context, idx) {return ContactRow(idx,onSelection,clearSelection);},
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-
-
-
-  @override
-  Widget build1(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return GmailMultiSelectList(itemBuilder:(context,idx){return getListTile(idx);},
-    itemCount: 3,
-    actions:actionButtons(),
-    defaultAppBar: AppBar(title:Text("hii")),
-      selections:selections,
+    return GmailMultiSelectList(
+      itemBuilder: (context, idx) {
+        return getListTile(idx);
+      },
+      itemCount: 3,
+      actions: actionButtons(),
+      defaultAppBar: AppBar(title: Text("hii")),
+      selections: selections,
       clearSelection: clearSelections,
+      selectedColor: Colors.grey[300],
     );
-
   }
 
-  ListTile getListTile(int idx){
+  ListTile getListTile(int idx) {
     return new ListTile(
-        leading: InkWell(child: Icon(Icons.person),onTap:()=> {onSelected(idx)}),
-        title: new Text("Test"),
+        leading:
+            InkWell(child: selections.contains(idx)?Icon(Icons.check):Icon(Icons.person), onTap: () => {onSelected(idx)}),
+        title: new Text(items[idx]),
         subtitle: new Text("Test Desc"),
-        trailing: new Text(idx.toString())
+        trailing: new Text(idx.toString()),
+        onLongPress: ()=>onSelected(idx),
+        onTap: ()=>{
+          if(selections.length>0)
+            onSelected(idx)
+        },
+
     );
   }
 
-
-  List<Widget> actionButtons(){
-   return List()
+  List<Widget> actionButtons() {
+    return List()
       ..add(IconButton(
         icon: Icon(Icons.delete),
-        onPressed: () {
-
-        },
+        onPressed: () {},
       ))
-    ..add(IconButton(
-    icon: Icon(Icons.star),
-    onPressed: () {
-
-    },
-    ))
-    ..add(IconButton(
-    icon: Icon(Icons.check),
-    onPressed: () {
-
-    },
-    ));
+      ..add(IconButton(
+        icon: Icon(Icons.star),
+        onPressed: () {},
+      ))
+      ..add(IconButton(
+        icon: Icon(Icons.check),
+        onPressed: () {},
+      ));
   }
 
+  Set<int> _selections = new Set();
+  get selections => _selections;
 
 
-  Set<int> _selections=new Set();
-  get selections=>_selections;
-
-  void onSelection(int idx,bool isSelect){
-      clearSelection=false;
-      if(isSelect){
-        selections.add(idx);
-      }else{
-        selections.remove(idx);
-      }
-      setState(() {
-
-      });
-
-  }
-
-  void onSelected(int idx){
-
+  void onSelected(int idx) {
     setState(() {
-      if(_selections.contains(idx)) _selections.remove(idx);
-        else _selections.add(idx);
+      if (_selections.contains(idx))
+        _selections.remove(idx);
+      else
+        _selections.add(idx);
     });
-
   }
-
-
 
   void clearSelections() {
     setState(() {
-      clearSelection=true;
-      _selections=new Set();
+      _selections = new Set();
     });
   }
 }
-
-
